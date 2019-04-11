@@ -181,6 +181,20 @@ To **include localhost** and local IP addresses (``127.0.0.1`` and ``::1``) use 
       known_hosts:
         include_localhost: True
 
+To **include pubkeys from Salt mine** install the ``known_hosts_mined`` renderer::
+This is allows you to re-use mined pubkeys in Pillar. (I wasn't able to accomplish
+this any other way in salt.pillar.stack for my ``salt-ssh`` minions.)
+
+    # in pillar.top:
+    '*':
+      - openssh.known_hosts_mined
+
+    # In your salt/ directory:
+    # Link the pillar file:
+    mkdir pillar/openssh
+    ln -s ../../formulas/openssh-formula/_pillar/known_hosts_mined.sls pillar/openssh/known_hosts_mined.sls
+
+You'll find the cached pubkeys in Pillar ``openssh:known_hosts:salt_ssh``.
 ``openssh.moduli``
 -----------------------
 
